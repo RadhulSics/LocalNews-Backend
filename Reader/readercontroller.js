@@ -119,6 +119,83 @@ const readerviewbyid=(req,res)=>{
     msg:"No user  found"
     })
   })
-
 }
-module.exports = { addreader,readrelogin ,readreforgetpswd,readerviewbyid}
+const readereditprofile=(req,res)=>{
+  readerschema.findByIdAndUpdate({_id:req.params.id},{
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    gender: req.body.gender,
+    age: req.body.age,
+    street: req.body.street,
+    city: req.body.city,
+    pincode: req.body.pincode,
+    state: req.body.state,
+    nationality: req.body.nationality,
+    email: req.body.email,
+    contact: req.body.contact,
+  })
+  .exec()
+  .then((response)=>{
+    res.json({
+      status:200,
+      msg:"updated successfully",response
+    })
+  })
+  .catch((err)=>{
+    res.json({
+      status:500,
+      msg:"error",err
+    })
+    console.log(err);
+  })
+}
+
+const viewalluser=(req,res)=>{
+  readerschema.find({})
+  .then((data)=>{
+    if(data.length>0){
+      res.json({
+          status:200,
+          msg:"Data obtained successfully",
+          data:data
+      })
+    }else{
+      res.json({
+        status:500,
+        msg:"No Data obtained "
+    })
+    }
+    })
+  .catch((err)=>{
+    res.json({
+      status:400,
+      msg:err
+    })
+  })
+  
+}
+const readerdeletebyid=(req,res)=>{
+  readerschema.findByIdAndDelete({_id:req.params.id})
+  .exec()
+  .then((data)=>{
+    res.json({
+      status:200,
+      msg:"Deleted Succesfully",
+      data:data
+    })
+  })
+  .catch((err)=>{
+    res.json({
+      status:500,
+      msg:err
+    })
+    console.log(err);
+  })
+}
+module.exports = { addreader,
+  readrelogin ,
+  readreforgetpswd,
+  readerviewbyid,
+  readereditprofile
+  ,viewalluser
+,readerdeletebyid}
