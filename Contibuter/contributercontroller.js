@@ -105,7 +105,73 @@ const addcontributer= (req, res) => {
     })
   
   }
+  const contibuterviewbyid=(req,res)=>{
+    contibuterschema.find({_id:req.params.id})
+    .then((result)=>{
+      res.json({
+        status:200,
+        msg:result
+      })
+    })
+      .catch(err=>{
+        res.json({
+            status:500,
+            msg:err
+        })
+      })
+
+  }
+  const viewallcontributer=(req,res)=>{
+    contibuterschema.find({})
+    .then((result)=>{
+      res.json({
+        status:200,
+        msg:result
+      })
+    })
+    .catch((err)=>{
+      res.json({
+        status:500,
+        msg:err
+      })
+      console.log(err);
+    })
+  }
+  const updatecontributer=(req,res)=>{
+    contibuterschema.findByIdAndUpdate({_id:req.params.id},{
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      gender: req.body.gender,
+      age: req.body.age,
+      street: req.body.street,
+      city: req.body.city,
+      pincode: req.body.pincode,
+      state: req.body.state,
+      nationality: req.body.nationality,
+      email: req.body.email,
+      contact: req.body.contact
+    })
+    .exec()
+    .then((response)=>{
+      res.json({
+        status:200,
+        msg:"updated successfully",response
+      })
+    })
+    .catch((err)=>{
+      res.json({
+        status:500,
+        msg:"error",err
+      })
+      console.log(err);
+    })
   
+  }
   
-  
-  module.exports={addcontributer,contributerlogin,contributerforgetpswd}
+  module.exports={addcontributer,
+    contributerlogin,
+    contributerforgetpswd,
+    contibuterviewbyid,
+    viewallcontributer,
+    updatecontributer
+  }
