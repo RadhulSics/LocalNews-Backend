@@ -21,10 +21,15 @@ router.post("/contributerforgetpswd",Contributer.contributerforgetpswd)
 router.post("/contibuterviewbyid/:id",Contributer.contibuterviewbyid)
 router.post("/viewallcontributer",Contributer.viewallcontributer)
 router.post("/updatecontributer/:id",Contributer.updatecontributer)
+router.post("/deletecontributer/:id",Contributer.deletecontributer)
+
 
 const Advertiser=require("./Advertiser/advertisercontroller")
+
 router.post("/advertisersignup",Advertiser.addadvertiser)
 router.post("/advertiserlogin",Advertiser.advertiserlogin)
 router.post("/advertiserforgetpswd",Advertiser.advertiserforgetpswd)
-
+router.post("/viewalladvertiser",Advertiser.viewalladvertiser)
+router.post("/viewsingleadvertiser/:id",Advertiser.viewsingleadvertiser)
+router.post("/deleteadvertiser/:id",Advertiser.deleteadvertiser)
 module.exports=router

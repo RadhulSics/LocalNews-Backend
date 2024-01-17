@@ -103,4 +103,68 @@ const advertiserforgetpswd=(req,res)=>{
     }
   })
 }
-module.exports={addadvertiser,advertiserlogin,advertiserforgetpswd}
+const viewalladvertiser=(req,res)=>{
+  advertiserschema.find({})
+  .exec()
+      .then(data=>{
+        res.json({
+          status:200,
+          msg:"data found succesfully",
+          data:data
+        })
+      })
+      .catch(err=>{
+        res.json({
+            status:500,
+            msg:"Data not found",
+            Error:err
+        })
+      })
+
+}
+const viewsingleadvertiser=(req,res)=>{
+  advertiserschema.findOne({_id:req.params.id})
+  .exec()
+      .then(data=>{
+        res.json({
+          status:200,
+          msg:"data found succesfully",
+          data:data
+        })
+      })
+      .catch(err=>{
+        res.json({
+            status:500,
+            msg:"Data not found",
+            Error:err
+        })
+        console.log(err);
+      })
+}
+const deleteadvertiser=(req,res)=>{
+  advertiserschema.findByIdAndDelete({_id:req.params.id})
+  .exec()
+      .then(data=>{
+        res.json({
+          status:200,
+          msg:"data deleted succesfully",
+          data:data
+        })
+      })
+      .catch(err=>{
+        res.json({
+            status:500,
+            msg:"Data not found",
+            Error:err
+        })
+        console.log(err);
+      })
+}
+
+module.exports={addadvertiser,
+  advertiserlogin,
+  advertiserforgetpswd,
+  viewalladvertiser,
+  viewsingleadvertiser,
+  deleteadvertiser
+}

@@ -106,11 +106,13 @@ const addcontributer= (req, res) => {
   
   }
   const contibuterviewbyid=(req,res)=>{
-    contibuterschema.find({_id:req.params.id})
+    contibuterschema.findOne({_id:req.params.id})
+    .exec()
     .then((result)=>{
       res.json({
         status:200,
-        msg:result
+        msg:"success",
+        data:result
       })
     })
       .catch(err=>{
@@ -126,7 +128,7 @@ const addcontributer= (req, res) => {
     .then((result)=>{
       res.json({
         status:200,
-        msg:result
+        data:result
       })
     })
     .catch((err)=>{
@@ -167,11 +169,31 @@ const addcontributer= (req, res) => {
     })
   
   }
+  const deletecontributer=(req,res)=>{
+    contibuterschema.findByIdAndDelete({_id:req.params.id})
+    .exec()
+    .then((response)=>{
+      res.json({
+        status:200,
+        msg:"Deleted succesfully"
+      })
+    })
+    .catch((err)=>{
+      res.json({
+        status:500,
+        msg:"error",err
+      })
+      console.log(err);
+    })
+  
+
+  }
   
   module.exports={addcontributer,
     contributerlogin,
     contributerforgetpswd,
     contibuterviewbyid,
     viewallcontributer,
-    updatecontributer
+    updatecontributer,
+    deletecontributer
   }
