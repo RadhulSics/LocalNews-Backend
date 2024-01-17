@@ -3,7 +3,6 @@ const bodyParser=require('body-parser')
 const db=require('./DBConnection')
 const app=express()
 const cors=require('cors')
-const multer=require('multer')
 const jwt=require('jsonwebtoken')
 app.use(bodyParser.json())
 
