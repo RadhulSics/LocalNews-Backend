@@ -52,4 +52,4 @@ const contibuterschema= mongoose.Schema({
     },
 })
 
-module.exports=mongoose.model('contributer',contibuterschema)
+module.exports=mongoose.model('contributor',contibuterschema)

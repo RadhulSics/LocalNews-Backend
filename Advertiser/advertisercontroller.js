@@ -161,10 +161,44 @@ const deleteadvertiser=(req,res)=>{
       })
 }
 
+const editadvertiser=(req,res)=>{
+  advertiserschema.findByIdAndUpdate({_id:req.params.id},{
+    firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      gender: req.body.gender,
+      companyname: req.body.companyname,
+      regno:req.body.regno,
+      street: req.body.street,
+      city: req.body.city,
+      pincode: req.body.pincode,
+      state: req.body.state,
+      email: req.body.email,
+      contact: req.body.contact,
+      password: req.body.password
+  })
+  .exec()
+    .then((response)=>{
+      res.json({
+        status:200,
+        msg:"updated successfully",response
+      })
+    })
+    .catch((err)=>{
+      res.json({
+        status:500,
+        msg:"error",err
+      })
+      console.log(err);
+    })
+}
+
+
+
 module.exports={addadvertiser,
   advertiserlogin,
   advertiserforgetpswd,
   viewalladvertiser,
   viewsingleadvertiser,
-  deleteadvertiser
+  deleteadvertiser,
+  editadvertiser
 }

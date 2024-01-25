@@ -3,6 +3,11 @@ const router = express.Router();
 
 
 const Reader=require("./Reader/readercontroller")
+const news=require("./News/newsController")
+const Contributer=require("./Contibuter/contributercontroller")
+const Advertiser=require("./Advertiser/advertisercontroller")
+const Advertisement = require("./Adds/advertisementcontroller")
+
 
 router.post("/readersignup",Reader.addreader )
 router.post("/readerlogin",Reader.readrelogin)
@@ -13,7 +18,6 @@ router.post("/viewallusers",Reader.viewalluser)
 router.post("/readerdeletebyid/:id",Reader.readerdeletebyid)
 
 
-const Contributer=require("./Contibuter/contributercontroller")
 
 router.post("/contributersignup",Contributer.addcontributer)
 router.post("/contibuterlogin",Contributer.contributerlogin)
@@ -24,12 +28,27 @@ router.post("/updatecontributer/:id",Contributer.updatecontributer)
 router.post("/deletecontributer/:id",Contributer.deletecontributer)
 
 
-const Advertiser=require("./Advertiser/advertisercontroller")
-
 router.post("/advertisersignup",Advertiser.addadvertiser)
 router.post("/advertiserlogin",Advertiser.advertiserlogin)
 router.post("/advertiserforgetpswd",Advertiser.advertiserforgetpswd)
 router.post("/viewalladvertiser",Advertiser.viewalladvertiser)
-router.post("/viewsingleadvertiser/:id",Advertiser.viewsingleadvertiser)
-router.post("/deleteadvertiser/:id",Advertiser.deleteadvertiser)
+router.post("/viewoneadvertiser/:id",Advertiser.viewsingleadvertiser)
+router.post("/editadvertiser/:id",Advertiser.editadvertiser)
+
+
+
+//news Routes
+router.post('/addNews/:id',news.upload,news.addNews)
+router.post('/viewnewsById/:id',news.viewnewsById)
+router.post('/viewallNewsByCategory',news.viewallNewsByCategory)
+router.post('/viewallNewsReqsForModerator',news.viewallNewsReqsForModerator)
+router.post('/viewallnewses',news.viewallnewses)
+router.post('/viewnewsByContributorId/:id',news.viewnewsByContributorId)
+router.post('/acceptNewsById/:id',news.acceptNewsById)
+router.post('/deleteNewsById/:id',news.deleteNewsById)
+
+
+//adds route
+// router.post("/addadvertisement",)
+
 module.exports=router
