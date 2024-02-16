@@ -21,10 +21,10 @@ const addschema=mongoose.Schema({
         type:Object,
         required: true
     },
-    // category:{
-    //     type:String,
-    //     required: true
-    // },
+    category:{
+        type:String,
+        required: true
+    },
     date:{
         type:Date
     },

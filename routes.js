@@ -7,6 +7,8 @@ const news=require("./News/newsController")
 const Contributer=require("./Contibuter/contributercontroller")
 const Advertiser=require("./Advertiser/advertisercontroller")
 const Advertisement = require("./Adds/advertisementcontroller")
+const Savenews=require('./Savenews/Savenewscontroller')
+const Reportnews=require('./Reportnews/Reportnewscontroller')
 
 
 router.post("/readersignup",Reader.addreader )
@@ -49,6 +51,19 @@ router.post('/deleteNewsById/:id',news.deleteNewsById)
 
 
 //adds route
-// router.post("/addadvertisement",)
+router.post("/addadvertisement/:id",Advertisement.upload,Advertisement.addadvertisement)
+router.post("/viewaddsbyid/:id",Advertisement.viewnewsbyadvertiserid)
+router.post("/viewrequests",Advertisement.viewallnewsreqformoderator)
+router.post("/acceptnews/:id",Advertisement.acceptnews)
+router.post("/viewaddbyid/:id",Advertisement.viewaddbyid)
+router.post("/rejectreq/:id",Advertisement.viewaddbyid)
+
+//save news
+router.post("/savenews",Savenews.savenews)
+router.post("/viewmynewsforuser/:id",Savenews.viewmynewsbyuserid)
+router.post("/deletesavednews/:id",Savenews.deletesavednews)
+
+//report news
+router.post("/reportnews",Reportnews.reportnews)
 
 module.exports=router
