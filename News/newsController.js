@@ -174,6 +174,34 @@ const deleteNewsById = (req, res) => {
         })
 
 }
+const updatenews=((req,res)=>{
+    console.log("api called");
+    console.log(req.params.id+"id");
+    newsSchema.findByIdAndUpdate({_id:req.params.id},
+        {
+            title: req.body.title,
+            content: req.body.content,
+            subcontent: req.body.subcontent,
+            location: req.body.location,
+            category: req.body.category,
+            image: req.file,
+        })
+        .exec()
+        .then((response)=>{
+          res.json({
+            status:200,
+            msg:"updated successfully",response
+          })
+        })
+        .catch((err)=>{
+          res.json({
+            status:500,
+            msg:"error",err
+          })
+          console.log(err);
+        })
+    
+})
 
 
 module.exports = {
@@ -185,5 +213,6 @@ module.exports = {
     upload,
     viewnewsByContributorId,
     acceptNewsById,
-    deleteNewsById
+    deleteNewsById,
+    updatenews
 }
