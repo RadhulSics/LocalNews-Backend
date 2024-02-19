@@ -48,11 +48,12 @@ router.post('/viewallnewses',news.viewallnewses)
 router.post('/viewnewsByContributorId/:id',news.viewnewsByContributorId)
 router.post('/acceptNewsById/:id',news.acceptNewsById)
 router.post('/deleteNewsById/:id',news.deleteNewsById)
+router.post('/updatenews/:id',news.updatenews)
 
 
 //adds route
 router.post("/addadvertisement/:id",Advertisement.upload,Advertisement.addadvertisement)
-router.post("/viewaddsbyid/:id",Advertisement.viewnewsbyadvertiserid)
+router.post("/viewaddsbyadvertiserid/:id",Advertisement.viewnewsbyadvertiserid)
 router.post("/viewrequests",Advertisement.viewallnewsreqformoderator)
 router.post("/acceptnews/:id",Advertisement.acceptnews)
 router.post("/viewaddbyid/:id",Advertisement.viewaddbyid)
