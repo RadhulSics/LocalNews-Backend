@@ -24,4 +24,44 @@ const reportnews =(req,res)=>{
         });
     });
 }
-module.exports={reportnews}
+const viewreportformoderator=((req,res)=>{
+    reportschema.find({}).populate('newsid').populate('readerid')
+    .exec()
+    .then((result) => {
+        res.json({
+            status: 200,
+            data: result,
+            msg: 'data obtained'
+        })
+    })
+    .catch(err => {
+        res.json({
+            status: 500,
+            msg: 'Error in API',
+            err: err
+        })
+    })
+})
+const viewreportbyid=((req,res)=>{
+    reportschema.findById({_id:req.params.id}).populate('newsid').populate('readerid')
+    .exec()
+    .then((result) => {
+        res.json({
+            status: 200,
+            data: result,
+            msg: 'data obtained'
+        })
+    })
+    .catch(err => {
+        res.json({
+            status: 500,
+            msg: 'Error in API',
+            err: err
+        })
+    })
+})
+
+module.exports={reportnews,
+    viewreportformoderator,
+    viewreportbyid
+}
