@@ -175,8 +175,6 @@ const deleteNewsById = (req, res) => {
 
 }
 const updatenews=((req,res)=>{
-    console.log("api called");
-    console.log(req.params.id+"id");
     newsSchema.findByIdAndUpdate({_id:req.params.id},
         {
             title: req.body.title,

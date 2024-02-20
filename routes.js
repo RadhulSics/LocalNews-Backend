@@ -48,7 +48,7 @@ router.post('/viewallnewses',news.viewallnewses)
 router.post('/viewnewsByContributorId/:id',news.viewnewsByContributorId)
 router.post('/acceptNewsById/:id',news.acceptNewsById)
 router.post('/deleteNewsById/:id',news.deleteNewsById)
-router.post('/updatenews/:id',news.updatenews)
+router.post('/updatenews/:id',news.upload,news.updatenews)
 
 
 //adds route
@@ -66,5 +66,8 @@ router.post("/deletesavednews/:id",Savenews.deletesavednews)
 
 //report news
 router.post("/reportnews",Reportnews.reportnews)
+router.post("/viewreportformoderator",Reportnews.viewreportformoderator)
+router.post("/viewreportbyid/:id",Reportnews.viewreportbyid)
+
 
 module.exports=router
