@@ -9,6 +9,7 @@ const Advertiser=require("./Advertiser/advertisercontroller")
 const Advertisement = require("./Adds/advertisementcontroller")
 const Savenews=require('./Savenews/Savenewscontroller')
 const Reportnews=require('./Reportnews/Reportnewscontroller')
+const Likecomment=require('./Likeandcomment/Likecommentcontroller')
 
 
 router.post("/readersignup",Reader.addreader )
@@ -68,6 +69,15 @@ router.post("/deletesavednews/:id",Savenews.deletesavednews)
 router.post("/reportnews",Reportnews.reportnews)
 router.post("/viewreportformoderator",Reportnews.viewreportformoderator)
 router.post("/viewreportbyid/:id",Reportnews.viewreportbyid)
+
+
+//likecomment
+router.post("/likeOrDislike/:id",Likecomment.likeOrDislike)
+router.post("/addcomment",Likecomment.addcomment)
+router.post("/viewallcomments",Likecomment.viewallcomments)
+
+
+
 
 
 module.exports=router

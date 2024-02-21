@@ -1,4 +1,6 @@
 const newsSchema = require("./newsSchema");
+const Reportnewsschema = require("../Reportnews/Reportnewsschema");
+
 const multer = require('multer')
 
 
@@ -156,8 +158,8 @@ const acceptNewsById = (req, res) => {
 
 }
 
-const deleteNewsById = (req, res) => {
-    newsSchema.findByIdAndDelete({ _id: req.params.id }).exec()
+const deleteNewsById =async (req, res) => {
+    await newsSchema.findByIdAndDelete({ _id: req.params.id }).exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -171,6 +173,14 @@ const deleteNewsById = (req, res) => {
                 msg: 'Error in API',
                 err: err
             })
+        })
+
+        await Reportnewsschema.deleteMany({ newsid: req.params.id }).exec()
+        .then((result) => {
+            console.log("deleted");
+        })
+        .catch(err => {
+           console.log(err);
         })
 
 }
