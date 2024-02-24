@@ -96,8 +96,8 @@ const acceptnews=((req,res)=>{
 
     })
 })
-const rejectreq=((rea,res)=>{
-    addschema.findByIdAndDelete({_id:req.body.id})
+const rejectreq=((req,res)=>{
+    addschema.findByIdAndDelete({_id:req.params.id})
     .exec()
     .then((result)=>{
         res.json({
@@ -126,6 +126,7 @@ const viewaddbyid=((req,res)=>{
         })
     })
     .catch((err)=>{
+        console.log(err);
         res.json({
             staus:500,
             msg:err
@@ -134,11 +135,38 @@ const viewaddbyid=((req,res)=>{
 
 })
 
+const updateadds=((req,res)=>{
+    addschema.findByIdAndUpdate({_id:req.params.id},
+        {
+            title: req.body.title,
+            content: req.body.content,
+            location: req.body.location,
+            category: req.body.category,
+            image: req.file,
+        })
+        .exec()
+        .then((response)=>{
+          res.json({
+            status:200,
+            msg:"updated successfully",response
+          })
+        })
+        .catch((err)=>{
+          res.json({
+            status:500,
+            msg:"error",err
+          })
+          console.log(err);
+        })
+    
+})
+
 
 module.exports={addadvertisement,
     upload,viewnewsbyadvertiserid,
     viewallnewsreqformoderator,
     acceptnews,
     viewaddbyid,
-    rejectreq
+    rejectreq,
+    updateadds
 }

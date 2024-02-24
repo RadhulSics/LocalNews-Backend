@@ -58,7 +58,9 @@ router.post("/viewaddsbyadvertiserid/:id",Advertisement.viewnewsbyadvertiserid)
 router.post("/viewrequests",Advertisement.viewallnewsreqformoderator)
 router.post("/acceptnews/:id",Advertisement.acceptnews)
 router.post("/viewaddbyid/:id",Advertisement.viewaddbyid)
-router.post("/rejectreq/:id",Advertisement.viewaddbyid)
+router.post("/rejectreq/:id",Advertisement.rejectreq)
+router.post('/updateadds/:id',Advertisement.upload,Advertisement.updateadds)
+
 
 //save news
 router.post("/savenews",Savenews.savenews)
@@ -74,7 +76,7 @@ router.post("/viewreportbyid/:id",Reportnews.viewreportbyid)
 //likecomment
 router.post("/likeOrDislike/:id",Likecomment.likeOrDislike)
 router.post("/addcomment",Likecomment.addcomment)
-router.post("/viewallcomments",Likecomment.viewallcomments)
+router.post("/viewcommentsbynewsid/:id",Likecomment.viewcommentsbynewsid)
 
 
 

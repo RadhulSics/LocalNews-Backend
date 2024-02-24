@@ -3,7 +3,7 @@ const commentschema=require("./Commentschema")
 
 const likeOrDislike = async (req, res) => {
     let likes = 0, flag = false
-  await  likeschema.findById({ id: req.params.id }, { id: 0, likes: 1 })
+  await  likeschema.findById({ id: req.params.newsid }, { id: 0, likes: 1 })
         .exec()
         .then(data => {
           data.likes.filter(x=>{
@@ -24,7 +24,7 @@ const likeOrDislike = async (req, res) => {
                 if (y > -1) {
                     data.likes.splice(y, 1);
                 }
-                likeschema.findByIdAndUpdate({ _id: req.params.id }, {
+                likeschema.findByIdAndUpdate({ _id: req.params.newsid }, {
                     likes: data.likes
                 }).exec().then(data => {
                     console.log(data);
@@ -41,7 +41,7 @@ const likeOrDislike = async (req, res) => {
             else {
 
                 data.likes.push(req.body.readerid);
-                likeschema.findByIdAndUpdate({ _id: req.params.id }, {
+                likeschema.findByIdAndUpdate({ _id: req.params.newsid }, {
                     likes: data.likes
                 }).exec().then(data => {
                     console.log(data);
@@ -101,30 +101,37 @@ const addcomment = (req, res) => {
     })
 
 }
-const viewallcomments=(req,res)=>{
-    commentschema.find({})
+const viewcommentsbynewsid=(req,res)=>{
+    commentschema.find({newsid:req.params.id})
     .populate('readerid')
     .exec()
     .then(data => {
+        if (!data || data.length === 0) {
+            return res.status(404).json({
+                status: 404,
+                msg: "No comments found for the provided newsid"
+            });
+        }
         res.json({
             status: 200,
             msg: "data obtained",
             data: data
-        })
-    }).catch(err => {
-        console.log(err);
-        res.json({
-            status: 500,
-            msg: "Data not get",
-            Error: err
-        })
+        });
     })
+    .catch(err => {
+        console.error("Error fetching comments:", err);
+        res.status(500).json({
+            status: 500,
+            msg: "Internal server error",
+            Error: err.message
+        });
+    });
 
 }
 module.exports = {
     likeOrDislike,
     addcomment,
-    viewallcomments
+    viewcommentsbynewsid
   };
   
 
