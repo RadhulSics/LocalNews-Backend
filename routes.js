@@ -60,6 +60,7 @@ router.post("/acceptnews/:id",Advertisement.acceptnews)
 router.post("/viewaddbyid/:id",Advertisement.viewaddbyid)
 router.post("/rejectreq/:id",Advertisement.rejectreq)
 router.post('/updateadds/:id',Advertisement.upload,Advertisement.updateadds)
+router.post('/viewalladds',Advertisement.viewalladds)
 
 
 //save news
