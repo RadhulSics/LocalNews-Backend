@@ -160,6 +160,24 @@ const updateadds=((req,res)=>{
         })
     
 })
+const viewalladds = (req, res) => {
+    addschema.find({ isactive: true }).populate('advertiserid').sort({ date: -1 }).exec()
+        .then((result) => {
+            res.json({
+                status: 200,
+                msg: result
+            })
+        })
+        .catch((err) => {
+            res.json({
+                status: 500,
+                msg: err
+            })
+            console.log(err);
+        })
+}
+
+
 
 
 module.exports={addadvertisement,
@@ -168,5 +186,6 @@ module.exports={addadvertisement,
     acceptnews,
     viewaddbyid,
     rejectreq,
-    updateadds
+    updateadds,
+    viewalladds
 }
