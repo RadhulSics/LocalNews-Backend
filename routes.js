@@ -29,6 +29,10 @@ router.post("/contibuterviewbyid/:id",Contributer.contibuterviewbyid)
 router.post("/viewallcontributer",Contributer.viewallcontributer)
 router.post("/updatecontributer/:id",Contributer.updatecontributer)
 router.post("/deletecontributer/:id",Contributer.deletecontributer)
+router.post("/viewallcontributorReqsForModerator",Contributer.viewallcontributorReqsForModerator)
+router.post("/viewrequestId/:id",Contributer.viewrequestId)
+router.post("/acceptcontributorById/:id",Contributer.acceptcontributorById)
+
 
 
 router.post("/advertisersignup",Advertiser.addadvertiser)
@@ -37,6 +41,9 @@ router.post("/advertiserforgetpswd",Advertiser.advertiserforgetpswd)
 router.post("/viewalladvertiser",Advertiser.viewalladvertiser)
 router.post("/viewoneadvertiser/:id",Advertiser.viewsingleadvertiser)
 router.post("/editadvertiser/:id",Advertiser.editadvertiser)
+router.post("/deleteadvertiser/:id",Advertiser.deleteadvertiser)
+router.post("/viewalladvertiserReqsForadmin",Advertiser.viewalladvertiserReqsForadmin)
+router.post("/acceptadvertiserById/:id",Advertiser.acceptadvertiserById)
 
 
 

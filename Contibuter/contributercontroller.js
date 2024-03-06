@@ -1,5 +1,7 @@
 const express=require("express")
-const contibuterschema=require("./contibuterschema")
+const contibuterschema=require("./contibuterschema");
+const newsSchema = require("../News/newsSchema");
+const Savenewsschema = require("../Savenews/Savenewsschema");
 
 const addcontributer= (req, res) => {
     console.log(req.body);
@@ -44,35 +46,75 @@ const addcontributer= (req, res) => {
       });
   }
 
+  // const contributerlogin = (req, res) => {
+  //   const email = req.body.email
+  //   const password = req.body.password
+  
+  //   contibuterschema.findOne({ email: req.body.email })
+  //     .exec()
+  //     .then((data) => {
+  //       if (password == data.password) {
+  //         res.json({
+  //           status: 200,
+  //           msg: "Login successfully",
+  //           data: data
+  //         })
+  //       }
+  //       else {
+  //         res.json({
+  //           status: 500,
+  //           msg: "password Mismatch",
+  
+  //         })
+  //       }
+  //     })
+  //     .catch((err)=>{
+  //       res.json({
+  //         status:400,
+  //         msg:"user not found"
+  //       })
+  //     })
+  // }
+
   const contributerlogin = (req, res) => {
-    const email = req.body.email
-    const password = req.body.password
+    const email = req.body.email;
+    const password = req.body.password;
   
-    contibuterschema.findOne({ email: req.body.email })
-      .exec()
-      .then((data) => {
-        if (password == data.password) {
-          res.json({
-            status: 200,
-            msg: "Login successfully",
-            data: data
-          })
-        }
-        else {
-          res.json({
-            status: 500,
-            msg: "password Mismatch",
-  
-          })
-        }
-      })
-      .catch((err)=>{
-        res.json({
-          status:400,
-          msg:"user not found"
-        })
-      })
-  }
+    contibuterschema.findOne({ email: email })
+       .exec()
+       .then((data) => {
+           if (!data) {
+               return res.json({
+                   status: 400,
+                   msg: "User not found"
+               });
+           }
+           if (data.isactive === false) {
+               return res.json({
+                   status: 403,
+                   msg: "User is not active. Please contact administrator."
+               });
+           }
+           if (password === data.password) {
+               return res.status(200).json({
+                   status: 200,
+                   msg: "Login successfully",
+                   data: data
+               });
+           } else {
+               return res.json({
+                   status: 401,
+                   msg: "Password mismatch"
+               });
+           }
+       })
+       .catch((err) => {
+           res.status(500).json({
+               status: 500,
+               msg: "Internal Server Error"
+           });
+       });
+}  
 
   const contributerforgetpswd=(req,res)=>{
     contibuterschema.findOne({email:req.body.email})
@@ -169,8 +211,14 @@ const addcontributer= (req, res) => {
     })
   
   }
-  const deletecontributer=(req,res)=>{
-    contibuterschema.findByIdAndDelete({_id:req.params.id})
+  const deletecontributer=async(req,res)=>{
+await newsSchema.deleteMany({contributorid:req.params.id}).exec().then(data=>{
+  console.log("newses deleted");
+})
+.catch(err=>{
+  console.log("erron news deletion");
+})
+    await contibuterschema.findByIdAndDelete({_id:req.params.id})
     .exec()
     .then((response)=>{
       res.json({
@@ -188,6 +236,63 @@ const addcontributer= (req, res) => {
   
 
   }
+  const viewallcontributorReqsForModerator = (req, res) => {
+    contibuterschema.find({ isactive: false })
+    // .populate('contributorid')
+    .exec()
+        .then((result) => {
+            res.json({
+                status: 200,
+                data: result
+            })
+        })
+        .catch((err) => {
+            res.json({
+                status: 500,
+                msg: err
+            })
+            console.log(err);
+        })
+}
+const viewrequestId = (req, res) => {
+  contibuterschema.findById({ _id: req.params.id })
+  .exec()
+      .then((result) => {
+          res.json({
+              status: 200,
+              data: result,
+              msg: 'data obtained'
+          })
+      })
+      .catch(err => {
+          res.json({
+              status: 500,
+              msg: 'Error in API',
+              err: err
+          })
+      })
+
+}
+const acceptcontributorById = (req, res) => {
+  contibuterschema.findByIdAndUpdate({ _id: req.params.id }, { isactive: true }).exec()
+      .then((result) => {
+          res.json({
+              status: 200,
+              data: result,
+              msg: 'data obtained'
+          })
+      })
+      .catch(err => {
+          res.json({
+              status: 500,
+              msg: 'Error in API',
+              err: err
+          })
+      })
+
+}
+
+
   
   module.exports={addcontributer,
     contributerlogin,
@@ -195,5 +300,8 @@ const addcontributer= (req, res) => {
     contibuterviewbyid,
     viewallcontributer,
     updatecontributer,
-    deletecontributer
+    deletecontributer,
+    viewallcontributorReqsForModerator,
+    viewrequestId,
+    acceptcontributorById
   }

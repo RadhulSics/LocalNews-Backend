@@ -1,7 +1,8 @@
 const newsSchema = require("./newsSchema");
 const Reportnewsschema = require("../Reportnews/Reportnewsschema");
 
-const multer = require('multer')
+const multer = require('multer');
+const LIkeschema = require("../Likeandcomment/LIkeschema");
 
 
 const storage = multer.diskStorage({
@@ -52,12 +53,39 @@ const addNews = (req, res) => {
         });
 }
 
-const viewnewsById = (req, res) => {
-    newsSchema.findById({ _id: req.params.id }).populate('contributorid').exec()
+const viewnewsById = async (req, res) => {
+    let likecount=0,liked=false
+    await LIkeschema.find({newsid: req.params.id}).exec()
+    .then((result) => {
+       result.map(x=>{
+        if(x.like)
+        likecount++
+
+       })
+        
+        console.log(likecount);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+    await LIkeschema.findOne({newsid: req.params.id,readerid:req.body.readerid}).exec()
+    .then((result) => {
+       
+            liked=result.like
+        
+        console.log(liked);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+   await newsSchema.findById({ _id: req.params.id }).populate('contributorid').exec()
         .then((result) => {
             res.json({
                 status: 200,
                 data: result,
+                likecount:likecount,
+                liked:liked,
                 msg: 'data obtained'
             })
         })
@@ -124,7 +152,7 @@ const viewallNewsReqsForModerator = (req, res) => {
 }
 // view all news by Category
 const viewallNewsByCategory = (req, res) => {
-    newsSchema.find({ category: req.body.category }).populate('contributorid').exec()
+    newsSchema.find({ category: req.body.category ,  isactive: true }).populate('contributorid').exec()
         .then((result) => {
             res.json({
                 status: 200,

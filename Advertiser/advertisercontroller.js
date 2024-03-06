@@ -44,35 +44,45 @@ const addadvertiser=(req,res)=>{
 
 }
 
-const advertiserlogin=(req,res)=>{
-    const email=req.body.email
-    const password=req.body.password
+const advertiserlogin = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-    advertiserschema.findOne({email:req.body.email})
-    .exec()
-    .then((data)=>{
-        if(password==data.password){
-            res.json({
-                status:200,
-                msg:"login successfully",
-                data:data
-            })
-        }
-        else {
-            res.json({
-              status: 500,
-              msg: "password Mismatch",
-    
-            })
-          }
-        })
-        .catch((err)=>{
-          res.json({
-            status:400,
-            msg:"user not found"
-          })
-        })
-}
+  advertiserschema.findOne({ email: email })
+     .exec()
+     .then((data) => {
+         if (!data) {
+             return res.json({
+                 status: 400,
+                 msg: "User not found"
+             });
+         }
+         if (data.isactive === false) {
+             return res.json({
+                 status: 403,
+                 msg: "User is not active. Please contact administrator."
+             });
+         }
+         if (password === data.password) {
+             return res.status(200).json({
+                 status: 200,
+                 msg: "Login successfully",
+                 data: data
+             });
+         } else {
+             return res.json({
+                 status: 401,
+                 msg: "Password mismatch"
+             });
+         }
+     })
+     .catch((err) => {
+         res.status(500).json({
+             status: 500,
+             msg: "Internal Server Error"
+         });
+     });
+}  
 const advertiserforgetpswd=(req,res)=>{
   advertiserschema.findOne({email:req.body.email})
   .exec()
@@ -191,7 +201,43 @@ const editadvertiser=(req,res)=>{
       console.log(err);
     })
 }
+const viewalladvertiserReqsForadmin = (req, res) => {
+  advertiserschema.find({ isactive: false })
+  // .populate('contributorid')
+  .exec()
+      .then((result) => {
+          res.json({
+              status: 200,
+              data: result
+          })
+      })
+      .catch((err) => {
+          res.json({
+              status: 500,
+              msg: err
+          })
+          console.log(err);
+      })
+}
 
+const acceptadvertiserById = (req, res) => {
+  advertiserschema.findByIdAndUpdate({ _id: req.params.id }, { isactive: true }).exec()
+      .then((result) => {
+          res.json({
+              status: 200,
+              data: result,
+              msg: 'data obtained'
+          })
+      })
+      .catch(err => {
+          res.json({
+              status: 500,
+              msg: 'Error in API',
+              err: err
+          })
+      })
+
+}
 
 
 module.exports={addadvertiser,
@@ -200,5 +246,7 @@ module.exports={addadvertiser,
   viewalladvertiser,
   viewsingleadvertiser,
   deleteadvertiser,
-  editadvertiser
+  editadvertiser,
+  viewalladvertiserReqsForadmin,
+  acceptadvertiserById
 }
