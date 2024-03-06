@@ -50,6 +50,11 @@ const contibuterschema= mongoose.Schema({
         type:String,
         required: true
     },
+    isactive:{
+        type:Boolean,
+        default:false
+    }
+
 })
 
 module.exports=mongoose.model('contributor',contibuterschema)

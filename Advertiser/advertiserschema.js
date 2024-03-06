@@ -52,6 +52,11 @@ const advertiserschema= mongoose.Schema({
         type:String,
         required: true
     },
+    isactive:{
+        type:Boolean,
+        default:false
+    }
+
 })
 
 module.exports=mongoose.model('advertiser',advertiserschema)
