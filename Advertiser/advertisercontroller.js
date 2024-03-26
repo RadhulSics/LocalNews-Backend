@@ -1,5 +1,17 @@
 const express=require("express")
 const advertiserschema=require("./advertiserschema")
+const multer=require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+      cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage }).single("image");
+
 
 const addadvertiser=(req,res)=>{
     let advertiser=new advertiserschema({
@@ -14,6 +26,7 @@ const addadvertiser=(req,res)=>{
       state: req.body.state,
       email: req.body.email,
       contact: req.body.contact,
+      image: req.file,
       password: req.body.password
     })
     advertiser.save()
@@ -240,7 +253,7 @@ const acceptadvertiserById = (req, res) => {
 }
 
 
-module.exports={addadvertiser,
+module.exports={addadvertiser,upload,
   advertiserlogin,
   advertiserforgetpswd,
   viewalladvertiser,

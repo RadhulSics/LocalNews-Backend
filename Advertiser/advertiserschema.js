@@ -52,6 +52,10 @@ const advertiserschema= mongoose.Schema({
         type:String,
         required: true
     },
+    image:{
+        type:Object,
+        required: true
+    },
     isactive:{
         type:Boolean,
         default:false

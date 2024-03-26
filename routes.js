@@ -19,10 +19,11 @@ router.post("/readerviewbyid/:id",Reader.readerviewbyid)
 router.post("/readeredirprofile/:id",Reader.readereditprofile)
 router.post("/viewallusers",Reader.viewalluser)
 router.post("/readerdeletebyid/:id",Reader.readerdeletebyid)
+router.post("/searchusersByName/:firstname",Reader.searchusersByName)
 
 
 
-router.post("/contributersignup",Contributer.addcontributer)
+router.post("/contributersignup",Contributer.upload,Contributer.addcontributer)
 router.post("/contibuterlogin",Contributer.contributerlogin)
 router.post("/contributerforgetpswd",Contributer.contributerforgetpswd)
 router.post("/contibuterviewbyid/:id",Contributer.contibuterviewbyid)
@@ -35,7 +36,7 @@ router.post("/acceptcontributorById/:id",Contributer.acceptcontributorById)
 
 
 
-router.post("/advertisersignup",Advertiser.addadvertiser)
+router.post("/advertisersignup",Advertiser.upload,Advertiser.addadvertiser)
 router.post("/advertiserlogin",Advertiser.advertiserlogin)
 router.post("/advertiserforgetpswd",Advertiser.advertiserforgetpswd)
 router.post("/viewalladvertiser",Advertiser.viewalladvertiser)
