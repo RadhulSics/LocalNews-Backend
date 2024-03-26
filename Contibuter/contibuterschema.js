@@ -50,6 +50,10 @@ const contibuterschema= mongoose.Schema({
         type:String,
         required: true
     },
+    image:{
+        type:Object,
+        required: true
+    },
     isactive:{
         type:Boolean,
         default:false

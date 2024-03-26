@@ -3,6 +3,20 @@ const contibuterschema=require("./contibuterschema");
 const newsSchema = require("../News/newsSchema");
 const Savenewsschema = require("../Savenews/Savenewsschema");
 
+const multer=require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+      cb(null, "./upload");
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage }).single("image");
+
+
 const addcontributer= (req, res) => {
     console.log(req.body);
     let contibuter = new contibuterschema({
@@ -17,6 +31,7 @@ const addcontributer= (req, res) => {
       nationality: req.body.nationality,
       email: req.body.email,
       contact: req.body.contact,
+      image: req.file,
       password: req.body.password
     })
     contibuter.save()
@@ -294,7 +309,7 @@ const acceptcontributorById = (req, res) => {
 
 
   
-  module.exports={addcontributer,
+  module.exports={addcontributer,upload,
     contributerlogin,
     contributerforgetpswd,
     contibuterviewbyid,
