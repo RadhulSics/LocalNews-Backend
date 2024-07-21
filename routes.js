@@ -88,7 +88,7 @@ router.post("/addcomment",Likecomment.addcomment)
 router.post("/viewcommentsbynewsid/:id",Likecomment.viewcommentsbynewsid)
 
 
-
+//
 
 
 module.exports=router
