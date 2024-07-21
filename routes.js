@@ -9,7 +9,10 @@ const Advertiser=require("./Advertiser/advertisercontroller")
 const Advertisement = require("./Adds/advertisementcontroller")
 const Savenews=require('./Savenews/Savenewscontroller')
 const Reportnews=require('./Reportnews/Reportnewscontroller')
+const Subscriptions=require('./Subscriptions/subController')
 const Likecomment=require('./Likeandcomment/Likecommentcontroller')
+
+
 
 
 router.post("/readersignup",Reader.addreader )
@@ -88,7 +91,12 @@ router.post("/addcomment",Likecomment.addcomment)
 router.post("/viewcommentsbynewsid/:id",Likecomment.viewcommentsbynewsid)
 
 
-
+//Sub Plans
+router.post("/createSubscription",Subscriptions.createSubscription)
+router.post("/getAllSubscriptions",Subscriptions.getAllSubscriptions)
+router.post("/getSubscriptionById/:id",Subscriptions.getSubscriptionById)
+router.post("/upgradeSubscription",Subscriptions.upgradeSubscription)
+router.post("/getSubscriptionByReaderId/:id",Subscriptions.getSubscriptionByReaderId)
 
 
 module.exports=router
