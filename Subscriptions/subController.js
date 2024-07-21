@@ -3,7 +3,7 @@ const Subscription = require('./subSchema');
 const createSubscription = async (req, res) => {
     try {
 
-const exsub=await Subscription.findOne({ readerId:req.body.readerId, planId:req.body.planId})
+const exsub=await Subscription.findOne({ readerId:req.body.readerId})
 if(exsub){
   return res.status(200).json({
         status: 400,
