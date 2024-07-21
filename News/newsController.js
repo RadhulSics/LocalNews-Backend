@@ -1,5 +1,6 @@
 const newsSchema = require("./newsSchema");
 const Reportnewsschema = require("../Reportnews/Reportnewsschema");
+const BadWordsFilter = require('bad-words');
 
 const multer = require('multer');
 const LIkeschema = require("../Likeandcomment/LIkeschema");
@@ -240,6 +241,56 @@ const updatenews=((req,res)=>{
 })
 
 
+// Initialize the bad words filter
+const filter = new BadWordsFilter();
+
+// Function to check if content contains bad words
+const containsBadWords = (text) => {
+  return filter.isProfane(text);
+};
+
+
+const checkForBadWords = async(req, res, next) => {
+    try {
+        const { newsId } = req.params;
+    
+     
+        const newsArticle = await newsSchema.findById(newsId);
+    
+        if (!newsArticle) {
+          return res.status(404).json({
+            status: 404,
+            msg: "News article not found",
+            data: null,
+          });
+        }
+    
+        const { title, content, subcontent } = newsArticle;
+    
+        
+        const hasBadWords = containsBadWords(title) ||
+                            containsBadWords(content) ||
+                            containsBadWords(subcontent) 
+                         
+    
+        if (hasBadWords) {
+          return res.status(400).json({
+            status: 400,
+            msg: "Content contains inappropriate language.",
+            data: null,
+          });
+        }
+    
+        res.status(200).json({
+          status: 200,
+          msg: "Content is clean.",
+          data: newsArticle,
+        });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+};
+
 module.exports = {
     addNews,
     viewallnewses,
@@ -250,5 +301,6 @@ module.exports = {
     viewnewsByContributorId,
     acceptNewsById,
     deleteNewsById,
-    updatenews
+    updatenews,
+    checkForBadWords
 }

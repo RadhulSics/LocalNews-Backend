@@ -98,5 +98,6 @@ router.post("/getSubscriptionById/:id",Subscriptions.getSubscriptionById)
 router.post("/upgradeSubscription",Subscriptions.upgradeSubscription)
 router.post("/getSubscriptionByReaderId/:id",Subscriptions.getSubscriptionByReaderId)
 
+router.post("/checkForBadWords/:newsId",news.checkForBadWords)
 
 module.exports=router
