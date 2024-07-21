@@ -70,7 +70,7 @@ const getSubscriptionById = async (req, res) => {
 // Get a subscription by ID
 const getSubscriptionByReaderId = async (req, res) => {
     try {
-        const subscription = await Subscription.find({readerId:req.params.id}).populate('readerId').exec();
+        const subscription = await Subscription.findOne({readerId:req.params.id}).populate('readerId').exec();
         if (!subscription) {
             return res.status(404).json({
                 status: 404,
