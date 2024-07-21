@@ -3,7 +3,7 @@ const Subscription = require('./subSchema');
 const createSubscription = async (req, res) => {
     try {
 
-const exsub=await Subscription.findOne({ readerId:req.body.readerId, planId:req.body.planId})
+const exsub=await Subscription.findOne({ readerId:req.body.readerId})
 if(exsub){
   return res.status(200).json({
         status: 400,
@@ -70,7 +70,7 @@ const getSubscriptionById = async (req, res) => {
 // Get a subscription by ID
 const getSubscriptionByReaderId = async (req, res) => {
     try {
-        const subscription = await Subscription.find({readerId:req.params.id}).populate('readerId').exec();
+        const subscription = await Subscription.findOne({readerId:req.params.id}).populate('readerId').exec();
         if (!subscription) {
             return res.status(404).json({
                 status: 404,
