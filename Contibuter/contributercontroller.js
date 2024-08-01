@@ -181,7 +181,7 @@ const addcontributer= (req, res) => {
 
   }
   const viewallcontributer=(req,res)=>{
-    contibuterschema.find({})
+    contibuterschema.find({ isactive: true})
     .then((result)=>{
       res.json({
         status:200,
