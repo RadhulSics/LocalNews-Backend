@@ -127,7 +127,7 @@ const advertiserforgetpswd=(req,res)=>{
   })
 }
 const viewalladvertiser=(req,res)=>{
-  advertiserschema.find({})
+  advertiserschema.find({isactive: true})
   .exec()
       .then(data=>{
         res.json({

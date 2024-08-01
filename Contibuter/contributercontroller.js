@@ -107,7 +107,7 @@ const addcontributer= (req, res) => {
            if (data.isactive === false) {
                return res.json({
                    status: 403,
-                   msg: "User is not active. Please contact administrator."
+                   msg: "User is not active. Please contact moderator."
                });
            }
            if (password === data.password) {
@@ -181,7 +181,7 @@ const addcontributer= (req, res) => {
 
   }
   const viewallcontributer=(req,res)=>{
-    contibuterschema.find({})
+    contibuterschema.find({ isactive: true})
     .then((result)=>{
       res.json({
         status:200,
