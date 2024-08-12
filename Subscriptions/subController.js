@@ -72,8 +72,9 @@ const getSubscriptionByReaderId = async (req, res) => {
     try {
         const subscription = await Subscription.findOne({readerId:req.params.id}).populate('readerId').exec();
         if (!subscription) {
-            return res.status(404).json({
-                status: 404,
+            return res.status(400).json({
+                status: 400,
+                data:null,
                 message: 'Subscription not found'
             });
         }

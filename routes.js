@@ -37,7 +37,7 @@ router.post("/viewallcontributorReqsForModerator",Contributer.viewallcontributor
 router.post("/viewrequestId/:id",Contributer.viewrequestId)
 router.post("/acceptcontributorById/:id",Contributer.acceptcontributorById)
 
-
+//advertisements
 
 router.post("/advertisersignup",Advertiser.upload,Advertiser.addadvertiser)
 router.post("/advertiserlogin",Advertiser.advertiserlogin)
