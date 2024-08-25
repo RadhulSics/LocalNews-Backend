@@ -61,6 +61,8 @@ router.post('/viewnewsByContributorId/:id',news.viewnewsByContributorId)
 router.post('/acceptNewsById/:id',news.acceptNewsById)
 router.post('/deleteNewsById/:id',news.deleteNewsById)
 router.post('/updatenews/:id',news.upload,news.updatenews)
+router.post('/viewRejectednewsByContributorId/:id',news.viewRejectednewsByContributorId)
+router.post('/deleteNewsByContributer/:id',news.deleteNewsByContributer)
 
 
 //adds route

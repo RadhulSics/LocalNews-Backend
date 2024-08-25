@@ -100,7 +100,7 @@ const viewnewsById = async (req, res) => {
 
 }
 const viewnewsByContributorId = (req, res) => {
-    newsSchema.find({ contributorid: req.params.id }).exec()
+    newsSchema.find({ contributorid: req.params.id}).exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -117,8 +117,27 @@ const viewnewsByContributorId = (req, res) => {
         })
 
 }
+const viewRejectednewsByContributorId = (req, res) => {
+    newsSchema.find({ contributorid: req.params.id, isactive: "rejected" }).exec()
+        .then((result) => {
+            res.json({
+                status: 200,
+                data: result,
+                msg: 'data obtained'
+            })
+        })
+        .catch(err => {
+            res.json({
+                status: 500,
+                msg: 'Error in API',
+                err: err
+            })
+        })
+
+}
+
 const viewallnewses = (req, res) => {
-    newsSchema.find({ isactive: true }).populate('contributorid').sort({ date: -1 }).exec()
+    newsSchema.find({ isactive: "approved"  }).populate('contributorid').sort({ date: -1 }).exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -136,7 +155,7 @@ const viewallnewses = (req, res) => {
 
 // view all news reqs for moderator
 const viewallNewsReqsForModerator = (req, res) => {
-    newsSchema.find({ isactive: false }).populate('contributorid').exec()
+    newsSchema.find({ isactive: "pending" }).populate('contributorid').exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -153,7 +172,7 @@ const viewallNewsReqsForModerator = (req, res) => {
 }
 // view all news by Category
 const viewallNewsByCategory = (req, res) => {
-    newsSchema.find({ category: req.body.category ,  isactive: true }).populate('contributorid').exec()
+    newsSchema.find({ category: req.body.category ,isactive: "approved"  }).populate('contributorid').exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -169,7 +188,7 @@ const viewallNewsByCategory = (req, res) => {
         })
 }
 const acceptNewsById = (req, res) => {
-    newsSchema.findByIdAndUpdate({ _id: req.params.id }, { isactive: true }).exec()
+    newsSchema.findByIdAndUpdate({ _id: req.params.id }, { isactive: "approved" }).exec()
         .then((result) => {
             res.json({
                 status: 200,
@@ -188,6 +207,33 @@ const acceptNewsById = (req, res) => {
 }
 
 const deleteNewsById =async (req, res) => {
+    await newsSchema.findByIdAndUpdate({ _id: req.params.id },{isactive:"rejected"}).exec()
+        .then((result) => {
+            res.json({
+                status: 200,
+                data: result,
+                msg: 'data deleted'
+            })
+        })
+        .catch(err => {
+            res.json({
+                status: 500,
+                msg: 'Error in API',
+                err: err
+            })
+        })
+
+        await Reportnewsschema.deleteMany({ newsid: req.params.id }).exec()
+        .then((result) => {
+            console.log("deleted");
+        })
+        .catch(err => {
+           console.log(err);
+        })
+
+}
+
+const deleteNewsByContributer =async (req, res) => {
     await newsSchema.findByIdAndDelete({ _id: req.params.id }).exec()
         .then((result) => {
             res.json({
@@ -213,6 +259,7 @@ const deleteNewsById =async (req, res) => {
         })
 
 }
+
 const updatenews=((req,res)=>{
     newsSchema.findByIdAndUpdate({_id:req.params.id},
         {
@@ -302,5 +349,7 @@ module.exports = {
     acceptNewsById,
     deleteNewsById,
     updatenews,
-    checkForBadWords
+    checkForBadWords,
+    viewRejectednewsByContributorId,
+    deleteNewsByContributer
 }
