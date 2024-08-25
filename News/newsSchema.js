@@ -37,9 +37,10 @@ const newsschema= mongoose.Schema({
         type:Date
     },
     isactive:{
-        type:Boolean,
-        default:false
-    }
+        type:String,
+        default:'pending'
+    },
+   
 })
 
 module.exports=mongoose.model('newses',newsschema)
