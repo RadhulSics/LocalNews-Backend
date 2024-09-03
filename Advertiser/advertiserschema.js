@@ -19,7 +19,9 @@ const advertiserschema= mongoose.Schema({
     },
     regno:{
         type:String,
-        required:true
+        required:true,
+        unique: true        
+
     },
    
     street:{

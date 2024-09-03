@@ -37,23 +37,46 @@ const addadvertiser=(req,res)=>{
             msg:"saved"
         })
     })
-    .catch((err) => {
-        console.log(err);
-        if (err.code === 11000) {
-          res.json({
-            status: 409,
-            msg: "Email Id Already Registered",
+    // .catch((err) => {
+    //     console.log(err);
+    //     if (err.code === 11000) {
+    //       res.json({
+    //         status: 409,
+    //         msg: "Email Id Already Registered",
   
-          });
-        }
-        else {
-          console.log(err);
-          res.json({
-            status: 500,
-            msg: "error",
-          });
-        }
+    //       });
+    //     }
+    //     else {
+    //       console.log(err);
+    //       res.json({
+    //         status: 500,
+    //         msg: "error",
+    //       });
+    //     }
+    //   });
+    .catch((err) => {
+      if (err.code === 11000) {
+        let errMsg = "Data not Inserted";
+        if (err.keyPattern.regno) {
+          errMsg = "Reg No already in Use";
+        } else if (err.keyPattern.email) {
+          errMsg = "Email Id already in Use";
+        } 
+               return res.status(409).json({
+          status: 409,
+          msg: errMsg,
+          Error: err,
+        });
+      }
+      res.status(500).json({
+        
+        status: 500,
+        msg: "Data not Inserted",
+        Error: err,
       });
+      console.log(err);
+    });
+
 
 }
 
